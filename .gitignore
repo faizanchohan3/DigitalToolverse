@@ -25,6 +25,11 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+
+# Env files (contain secrets — never commit)
+.env
+.env.*
+!.env.example
 *.suo
 *.ntvs*
 *.njsproj

@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, ShoppingCart, Orbit, Phone } from "lucide-react";
+import { Menu, X, Orbit, Phone } from "lucide-react";
 import { nav, contact, brand } from "@/lib/site-data";
 import { Button } from "@/components/ui/button";
+import { CartSheet } from "./CartSheet";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -48,9 +49,7 @@ export function Header() {
           >
             <Phone className="h-3.5 w-3.5" /> {contact.phone}
           </a>
-          <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-            <ShoppingCart className="h-4 w-4" />
-          </Button>
+          <CartSheet />
           <Button asChild className="hidden sm:inline-flex bg-primary text-primary-foreground hover:bg-primary/90">
             <Link to="/tools">Explore Tools</Link>
           </Button>

@@ -4,6 +4,8 @@ import { OrbitHero } from "@/components/site/OrbitHero";
 import { Marquee } from "@/components/site/Marquee";
 import { Section } from "@/components/site/Section";
 import { ToolCard } from "@/components/site/ToolCard";
+import { CardSlider } from "@/components/site/CardSlider";
+import { ServicesGrid } from "@/components/site/ServicesGrid";
 import { Button } from "@/components/ui/button";
 import { tools, services, stats } from "@/lib/site-data";
 import {
@@ -30,21 +32,23 @@ function Home() {
       <Marquee />
 
       {/* Value props */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { icon: Headphones, title: "24/7 Support", desc: "Real humans, no delays, no hassle." },
-          { icon: Users, title: "12K+ Network", desc: "Satisfied creators & entrepreneurs." },
-          { icon: ShieldCheck, title: "500+ Tools", desc: "Premium verified products." },
-          { icon: Zap, title: "Instant Delivery", desc: "Activate in minutes, not days." },
-        ].map((v, i) => (
-          <div key={i} className="gradient-border rounded-2xl p-5">
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/15 text-primary mb-3">
-              <v.icon className="h-5 w-5" />
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
+        <CardSlider gridClassName="sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: Headphones, title: "24/7 Support", desc: "Real humans, no delays, no hassle." },
+            { icon: Users, title: "12K+ Network", desc: "Satisfied creators & entrepreneurs." },
+            { icon: ShieldCheck, title: "500+ Tools", desc: "Premium verified products." },
+            { icon: Zap, title: "Instant Delivery", desc: "Activate in minutes, not days." },
+          ].map((v, i) => (
+            <div key={i} className="gradient-border rounded-2xl p-5">
+              <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/15 text-primary mb-3">
+                <v.icon className="h-5 w-5" />
+              </div>
+              <div className="font-semibold">{v.title}</div>
+              <p className="text-sm text-muted-foreground mt-1">{v.desc}</p>
             </div>
-            <div className="font-semibold">{v.title}</div>
-            <p className="text-sm text-muted-foreground mt-1">{v.desc}</p>
-          </div>
-        ))}
+          ))}
+        </CardSlider>
       </section>
 
       {/* Tools */}
@@ -59,9 +63,9 @@ function Home() {
           </Button>
         }
       >
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <CardSlider gridClassName="sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {tools.slice(0, 8).map((t) => <ToolCard key={t.slug} tool={t} />)}
-        </div>
+        </CardSlider>
       </Section>
 
       {/* Services grid */}
@@ -76,7 +80,7 @@ function Home() {
           </Button>
         }
       >
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <ServicesGrid>
           {services.map((s, i) => (
             <Link
               key={s.slug}
@@ -93,7 +97,7 @@ function Home() {
               </div>
             </Link>
           ))}
-        </div>
+        </ServicesGrid>
       </Section>
 
       {/* Giveaway CTA */}
@@ -145,7 +149,7 @@ function Home() {
         highlight="Instantly."
         description="Real followers, likes, views and engagement across every major platform — delivered fast, securely, and at scale."
       >
-        <div className="grid lg:grid-cols-3 gap-4">
+        <ServicesGrid>
           {["Instagram", "YouTube", "TikTok", "Facebook", "X (Twitter)", "WhatsApp"].map((p) => (
             <div key={p} className="gradient-border rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-3">
@@ -161,7 +165,7 @@ function Home() {
               </div>
             </div>
           ))}
-        </div>
+        </ServicesGrid>
         <div className="mt-10 grid sm:grid-cols-4 gap-4">
           {stats.map((s) => (
             <div key={s.label} className="text-center rounded-2xl bg-surface/60 border border-border/60 p-6">

@@ -12,4 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Force Nitro on with the Vercel preset so `vite build` emits the Vercel
+  // Build Output API (.vercel/output) instead of a client-only Vite build.
+  // Without this, a self-deploy skips Nitro and ships no server → 404 on Vercel.
+  nitro: { preset: "vercel" },
 });

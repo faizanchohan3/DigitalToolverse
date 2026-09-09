@@ -2,22 +2,32 @@ import orbitCore from "@/assets/orbit-core.png";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield } from "lucide-react";
+import { tools } from "@/lib/site-data";
 
-const ring1 = [
-  { label: "GPT", color: "from-emerald-400 to-emerald-600" },
-  { label: "Cv", color: "from-sky-400 to-sky-600" },
-  { label: "Ai", color: "from-rose-400 to-rose-600" },
-  { label: "Mj", color: "from-amber-400 to-amber-600" },
-  { label: "Ad", color: "from-fuchsia-400 to-fuchsia-600" },
-  { label: "Nx", color: "from-indigo-400 to-indigo-600" },
+type OrbitItem = { name: string; logo: string };
+
+const logoFor = (slug: string): OrbitItem => {
+  const t = tools.find((x) => x.slug === slug);
+  return { name: t?.name ?? slug, logo: t?.logo ?? "" };
+};
+
+const ring1: OrbitItem[] = [
+  logoFor("chatgpt-plus"),
+  logoFor("canva-pro"),
+  logoFor("claude"),
+  logoFor("perplexity"),
+  logoFor("adobe-cc"),
+  logoFor("office-365"),
 ];
 
-const ring2 = [
-  { label: "Qb", color: "from-lime-400 to-lime-600" },
-  { label: "Pp", color: "from-orange-400 to-orange-600" },
-  { label: "Ev", color: "from-teal-400 to-teal-600" },
-  { label: "Cs", color: "from-violet-400 to-violet-600" },
-  { label: "Gr", color: "from-yellow-400 to-yellow-600" },
+const ring2: OrbitItem[] = [
+  logoFor("figma"),
+  logoFor("midjourney"),
+  logoFor("notion"),
+  logoFor("grammarly"),
+  logoFor("coursera"),
+  logoFor("elevenlabs"),
+  logoFor("cursor"),
 ];
 
 function Orbit({
@@ -29,7 +39,7 @@ function Orbit({
   size: number;
   duration: string;
   reverse?: boolean;
-  items: { label: string; color: string }[];
+  items: OrbitItem[];
 }) {
   return (
     <div
@@ -51,10 +61,15 @@ function Orbit({
             style={{ transform: `rotate(${angle}deg) translateX(${size / 2}px) rotate(-${angle}deg)` }}
           >
             <div
-              className={`grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-gradient-to-br ${it.color} text-white text-sm font-semibold shadow-[var(--shadow-card)] ring-1 ring-white/20`}
+              className="grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center overflow-hidden rounded-full bg-white shadow-[var(--shadow-card)] ring-1 ring-black/5"
               style={{ animation: `${reverse ? "spin-slow" : "spin-reverse"} ${duration} linear infinite` }}
             >
-              {it.label}
+              <img
+                src={it.logo}
+                alt={`${it.name} logo`}
+                loading="lazy"
+                className="h-7 w-7 rounded-full object-contain"
+              />
             </div>
           </div>
         );

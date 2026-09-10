@@ -175,11 +175,20 @@ function CoursePage() {
           {active && (
             <div>
               <h2 className="font-semibold text-lg">{active.title}</h2>
-              {active.description && <p className="text-sm text-muted-foreground mt-1 whitespace-pre-wrap">{active.description}</p>}
-              {active.resource_name && (hasAccess || active.is_preview) && (
-                <Button size="sm" variant="outline" className="mt-3" onClick={() => download(active.id)}>
-                  <Download className="h-4 w-4 mr-1" /> Download {active.resource_name}
-                </Button>
+              {/* Only the headline shows when locked; notes/description unlock after approval */}
+              {hasAccess || active.is_preview ? (
+                <>
+                  {active.description && <p className="text-sm text-muted-foreground mt-1 whitespace-pre-wrap">{active.description}</p>}
+                  {active.resource_name && (
+                    <Button size="sm" variant="outline" className="mt-3" onClick={() => download(active.id)}>
+                      <Download className="h-4 w-4 mr-1" /> Download {active.resource_name}
+                    </Button>
+                  )}
+                </>
+              ) : (
+                <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <Lock className="h-3.5 w-3.5" /> Enroll and get approved to watch this episode and access its notes & downloads.
+                </p>
               )}
             </div>
           )}

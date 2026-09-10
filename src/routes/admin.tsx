@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Package, Users, ShoppingBag, Settings, Sparkles, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, Users, ShoppingBag, Settings, Sparkles, LogOut, GraduationCap, BadgeCheck } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — Digital ToolVerse" }, { name: "robots", content: "noindex" }] }),
@@ -8,6 +9,8 @@ export const Route = createFileRoute("/admin")({
 
 const items = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/courses", label: "Courses", icon: GraduationCap },
+  { to: "/admin/enrollments", label: "Enrollments", icon: BadgeCheck },
   { to: "/admin/products", label: "Products", icon: Package },
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { to: "/admin/users", label: "Users", icon: Users },
@@ -16,6 +19,27 @@ const items = [
 
 function AdminShell() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { isAdmin, isLoading, user } = useAuth();
+
+  if (isLoading) {
+    return <div className="min-h-screen grid place-items-center bg-aurora text-sm text-muted-foreground">Loading…</div>;
+  }
+  if (!user || !isAdmin) {
+    return (
+      <div className="min-h-screen grid place-items-center bg-aurora px-4">
+        <div className="gradient-border rounded-2xl p-8 text-center max-w-sm">
+          <h1 className="font-display text-xl font-bold">Admins only</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {user ? "Your account doesn't have admin access." : "Please sign in with an admin account."}
+          </p>
+          <Link to="/login" search={{ redirect: "/admin" }} className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
+            Go to sign in
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex bg-aurora">
       <aside className="w-64 hidden md:flex flex-col border-r border-border/60 bg-background/80 backdrop-blur p-4">

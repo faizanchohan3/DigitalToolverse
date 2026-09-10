@@ -1,12 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Orbit, Phone } from "lucide-react";
+import { Menu, X, Orbit, Phone, User, LogOut, Shield } from "lucide-react";
 import { nav, contact, brand } from "@/lib/site-data";
 import { Button } from "@/components/ui/button";
 import { CartSheet } from "./CartSheet";
+import { useAuth } from "@/lib/auth-context";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { user, isAdmin, signOut } = useAuth();
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 backdrop-blur-xl bg-background/70">
       {/* Top contact bar */}
@@ -50,6 +52,20 @@ export function Header() {
             <Phone className="h-3.5 w-3.5" /> {contact.phone}
           </a>
           <CartSheet />
+          {isAdmin && (
+            <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex" title="Admin">
+              <Link to="/admin"><Shield className="h-4 w-4" /></Link>
+            </Button>
+          )}
+          {user ? (
+            <Button variant="ghost" size="icon" className="hidden sm:inline-flex" title="Sign out" onClick={() => signOut()}>
+              <LogOut className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex" title="Sign in">
+              <Link to="/login"><User className="h-4 w-4" /></Link>
+            </Button>
+          )}
           <Button asChild className="hidden sm:inline-flex bg-primary text-primary-foreground hover:bg-primary/90">
             <Link to="/tools">Explore Tools</Link>
           </Button>

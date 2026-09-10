@@ -15,16 +15,21 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as PhysicalProductsRouteImport } from './routes/physical-products'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as GiveawaysRouteImport } from './routes/giveaways'
 import { Route as CoursesHubRouteImport } from './routes/courses-hub'
 import { Route as AffiliateProgramRouteImport } from './routes/affiliate-program'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as CourseSlugRouteImport } from './routes/course.$slug'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminEnrollmentsRouteImport } from './routes/admin.enrollments'
+import { Route as AdminCoursesRouteImport } from './routes/admin.courses'
+import { Route as AdminCoursesIdRouteImport } from './routes/admin.courses.$id'
 
 const ToolsRoute = ToolsRouteImport.update({
   id: '/tools',
@@ -54,6 +59,11 @@ const ReviewsRoute = ReviewsRouteImport.update({
 const PhysicalProductsRoute = PhysicalProductsRouteImport.update({
   id: '/physical-products',
   path: '/physical-products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GiveawaysRoute = GiveawaysRouteImport.update({
@@ -86,6 +96,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const CourseSlugRoute = CourseSlugRouteImport.update({
+  id: '/course/$slug',
+  path: '/course/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -106,6 +121,21 @@ const AdminOrdersRoute = AdminOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEnrollmentsRoute = AdminEnrollmentsRouteImport.update({
+  id: '/enrollments',
+  path: '/enrollments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCoursesRoute = AdminCoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCoursesIdRoute = AdminCoursesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminCoursesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -113,34 +143,44 @@ export interface FileRoutesByFullPath {
   '/affiliate-program': typeof AffiliateProgramRoute
   '/courses-hub': typeof CoursesHubRoute
   '/giveaways': typeof GiveawaysRoute
+  '/login': typeof LoginRoute
   '/physical-products': typeof PhysicalProductsRoute
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/smm-panel': typeof SmmPanelRoute
   '/tools': typeof ToolsRoute
+  '/admin/courses': typeof AdminCoursesRouteWithChildren
+  '/admin/enrollments': typeof AdminEnrollmentsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/course/$slug': typeof CourseSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/courses/$id': typeof AdminCoursesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/affiliate-program': typeof AffiliateProgramRoute
   '/courses-hub': typeof CoursesHubRoute
   '/giveaways': typeof GiveawaysRoute
+  '/login': typeof LoginRoute
   '/physical-products': typeof PhysicalProductsRoute
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/smm-panel': typeof SmmPanelRoute
   '/tools': typeof ToolsRoute
+  '/admin/courses': typeof AdminCoursesRouteWithChildren
+  '/admin/enrollments': typeof AdminEnrollmentsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/course/$slug': typeof CourseSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/courses/$id': typeof AdminCoursesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -149,17 +189,22 @@ export interface FileRoutesById {
   '/affiliate-program': typeof AffiliateProgramRoute
   '/courses-hub': typeof CoursesHubRoute
   '/giveaways': typeof GiveawaysRoute
+  '/login': typeof LoginRoute
   '/physical-products': typeof PhysicalProductsRoute
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/smm-panel': typeof SmmPanelRoute
   '/tools': typeof ToolsRoute
+  '/admin/courses': typeof AdminCoursesRouteWithChildren
+  '/admin/enrollments': typeof AdminEnrollmentsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/course/$slug': typeof CourseSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/courses/$id': typeof AdminCoursesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -169,34 +214,44 @@ export interface FileRouteTypes {
     | '/affiliate-program'
     | '/courses-hub'
     | '/giveaways'
+    | '/login'
     | '/physical-products'
     | '/reviews'
     | '/services'
     | '/sitemap.xml'
     | '/smm-panel'
     | '/tools'
+    | '/admin/courses'
+    | '/admin/enrollments'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
     | '/admin/users'
+    | '/course/$slug'
     | '/admin/'
+    | '/admin/courses/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/affiliate-program'
     | '/courses-hub'
     | '/giveaways'
+    | '/login'
     | '/physical-products'
     | '/reviews'
     | '/services'
     | '/sitemap.xml'
     | '/smm-panel'
     | '/tools'
+    | '/admin/courses'
+    | '/admin/enrollments'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
     | '/admin/users'
+    | '/course/$slug'
     | '/admin'
+    | '/admin/courses/$id'
   id:
     | '__root__'
     | '/'
@@ -204,17 +259,22 @@ export interface FileRouteTypes {
     | '/affiliate-program'
     | '/courses-hub'
     | '/giveaways'
+    | '/login'
     | '/physical-products'
     | '/reviews'
     | '/services'
     | '/sitemap.xml'
     | '/smm-panel'
     | '/tools'
+    | '/admin/courses'
+    | '/admin/enrollments'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
     | '/admin/users'
+    | '/course/$slug'
     | '/admin/'
+    | '/admin/courses/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,12 +283,14 @@ export interface RootRouteChildren {
   AffiliateProgramRoute: typeof AffiliateProgramRoute
   CoursesHubRoute: typeof CoursesHubRoute
   GiveawaysRoute: typeof GiveawaysRoute
+  LoginRoute: typeof LoginRoute
   PhysicalProductsRoute: typeof PhysicalProductsRoute
   ReviewsRoute: typeof ReviewsRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SmmPanelRoute: typeof SmmPanelRoute
   ToolsRoute: typeof ToolsRoute
+  CourseSlugRoute: typeof CourseSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -275,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PhysicalProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/giveaways': {
       id: '/giveaways'
       path: '/giveaways'
@@ -317,6 +386,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/course/$slug': {
+      id: '/course/$slug'
+      path: '/course/$slug'
+      fullPath: '/course/$slug'
+      preLoaderRoute: typeof CourseSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
@@ -345,10 +421,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/enrollments': {
+      id: '/admin/enrollments'
+      path: '/enrollments'
+      fullPath: '/admin/enrollments'
+      preLoaderRoute: typeof AdminEnrollmentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/courses': {
+      id: '/admin/courses'
+      path: '/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminCoursesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/courses/$id': {
+      id: '/admin/courses/$id'
+      path: '/$id'
+      fullPath: '/admin/courses/$id'
+      preLoaderRoute: typeof AdminCoursesIdRouteImport
+      parentRoute: typeof AdminCoursesRoute
+    }
   }
 }
 
+interface AdminCoursesRouteChildren {
+  AdminCoursesIdRoute: typeof AdminCoursesIdRoute
+}
+
+const AdminCoursesRouteChildren: AdminCoursesRouteChildren = {
+  AdminCoursesIdRoute: AdminCoursesIdRoute,
+}
+
+const AdminCoursesRouteWithChildren = AdminCoursesRoute._addFileChildren(
+  AdminCoursesRouteChildren,
+)
+
 interface AdminRouteChildren {
+  AdminCoursesRoute: typeof AdminCoursesRouteWithChildren
+  AdminEnrollmentsRoute: typeof AdminEnrollmentsRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -357,6 +468,8 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCoursesRoute: AdminCoursesRouteWithChildren,
+  AdminEnrollmentsRoute: AdminEnrollmentsRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
@@ -372,23 +485,15 @@ const rootRouteChildren: RootRouteChildren = {
   AffiliateProgramRoute: AffiliateProgramRoute,
   CoursesHubRoute: CoursesHubRoute,
   GiveawaysRoute: GiveawaysRoute,
+  LoginRoute: LoginRoute,
   PhysicalProductsRoute: PhysicalProductsRoute,
   ReviewsRoute: ReviewsRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SmmPanelRoute: SmmPanelRoute,
   ToolsRoute: ToolsRoute,
+  CourseSlugRoute: CourseSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
